@@ -8,7 +8,14 @@ win_width = 200
 win_height = 300
 
 # Radius of clock
-radius = 80
+radius = 60
+
+# Thickness of the clock hands
+hand_thickness = 3
+hand_thickness_second = 2
+
+# Vertical Offset
+vertical_offset = 10
 
 # Initialize Tkinter window
 root = tk.Tk()
@@ -34,16 +41,20 @@ def draw_clock():
     minute_angle = math.pi / 30 * (minutes - 15)
     second_angle = math.pi / 30 * (seconds - 15)
 
-    # Draw the clock hands
-    draw.line((win_width/2, win_height/2,
-               win_width/2 + radius/2 * math.cos(hour_angle),
-               win_height/2 + radius/2 * math.sin(hour_angle)), fill='black')
-    draw.line((win_width/2, win_height/2,
-               win_width/2 + radius * math.cos(minute_angle),
-               win_height/2 + radius * math.sin(minute_angle)), fill='black')
-    draw.line((win_width/2, win_height/2,
-               win_width/2 + radius * math.cos(second_angle),
-               win_height/2 + radius * math.sin(second_angle)), fill='black')
+    # Adjusted center
+    center_x = win_width / 2
+    center_y = win_height / 2 - vertical_offset
+
+# Draw the clock hands
+    draw.line((center_x, center_y,
+               center_x + radius/2 * math.cos(hour_angle),
+               center_y + radius/2 * math.sin(hour_angle)), fill='black', width=hand_thickness)
+    draw.line((center_x, center_y,
+               center_x + radius * math.cos(minute_angle),
+               center_y + radius * math.sin(minute_angle)), fill='black', width=hand_thickness)
+    draw.line((center_x, center_y,
+               center_x + radius * math.cos(second_angle),
+               center_y + radius * math.sin(second_angle)), fill='black', width=hand_thickness_second)
 
     # Convert image for Tkinter
     tk_image = ImageTk.PhotoImage(copy_image)
@@ -62,4 +73,3 @@ draw_clock()
 
 # Start the GUI
 root.mainloop()
-
